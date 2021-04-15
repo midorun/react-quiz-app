@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import QuestionCard from "./components/QuestionCard";
+import { Difficulty, fetchQuizQuestions } from "./services/API";
 
 const TOTAL_QUESTIONS = 10;
+
+const res = fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.easy);
+console.log(res);
+
 
 function App() {
 
@@ -25,7 +30,9 @@ function App() {
     }
 
 
+
     return (
+
         <div className="App">
             <h1>React Quiz</h1>
             <button
@@ -36,15 +43,20 @@ function App() {
             </button>
             <p className="score">Score:</p>
             <p>Loading questions</p>
-            <QuestionCard
+            {/* <QuestionCard
                 questionNumber={number + 1}
                 questionsTotal={TOTAL_QUESTIONS}
                 question={questions[number].question}
                 answers={questions[number].answers}
                 userAnswer={userAnswers ? userAnswers[number] : undefined}
                 callback={checkAnswer}
-            />
-            <button className="next" onClick={nextQuestion}></button>
+            /> */}
+            <button
+                className="next"
+                onClick={nextQuestion}
+            >
+                nextQuestion
+            </button>
 
         </div>
     );
