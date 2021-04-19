@@ -4,8 +4,8 @@ import style from './QuestionCard.module.css';
 type Props = {
   question: string;
   answers: Array<string>;
-  callback: any;
-  userAnswer: any;
+  callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  userAnswer: string | undefined;
   questionNumber: number;
   questionsTotal: number;
 
@@ -29,7 +29,7 @@ const QuestionCard: React.FC<Props> = ({
         <div key={answer}>
           <button
             className={style.answer_btn}
-            disabled={userAnswer}
+            disabled={!!userAnswer}
             value={answer}
             onClick={callback}
           >
