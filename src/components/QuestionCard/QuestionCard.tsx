@@ -1,5 +1,5 @@
 import React from "react";
-import style from './QuestionCard.module.css';
+import { ButtonAnswer, ButtonWrapper, GlobalStyle } from "./QuestionCard.styles";
 
 type Props = {
   question: string;
@@ -19,28 +19,30 @@ const QuestionCard: React.FC<Props> = ({
   questionNumber,
   questionsTotal }) =>
 (
-  <div>
-    <p className="number">
-      Queston: {questionNumber} / {questionsTotal}
-    </p>
-    <p dangerouslySetInnerHTML={{ __html: question }} />
-    <div >
-      {answers.map(answer => (
-        <div key={answer}>
-          <button
-            className={style.answer_btn}
-            disabled={!!userAnswer}
-            value={answer}
-            onClick={callback}
-          >
-            <span
-              dangerouslySetInnerHTML={{ __html: answer }}
-            />
-          </button>
-        </div>
-      ))}
+  <>
+    <GlobalStyle />
+    <div>
+      <p className="number">
+        Queston: {questionNumber} / {questionsTotal}
+      </p>
+      <p dangerouslySetInnerHTML={{ __html: question }} />
+      <div >
+        {answers.map(answer => (
+          <ButtonWrapper key={answer}>
+            <ButtonAnswer
+              disabled={!!userAnswer}
+              value={answer}
+              onClick={callback}
+            >
+              <span
+                dangerouslySetInnerHTML={{ __html: answer }}
+              />
+            </ButtonAnswer>
+          </ButtonWrapper>
+        ))}
+      </div>
     </div>
-  </div>
+  </>
 )
 
 
