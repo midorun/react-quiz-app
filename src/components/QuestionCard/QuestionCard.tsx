@@ -1,4 +1,5 @@
 import React from "react";
+import style from './QuestionCard.module.css';
 
 type Props = {
   question: string;
@@ -25,9 +26,11 @@ const QuestionCard: React.FC<Props> = ({
     <p dangerouslySetInnerHTML={{ __html: question }} />
     <div >
       {answers.map(answer => (
-        <div>
+        <div key={answer}>
           <button
+            className={style.answer_btn}
             disabled={userAnswer}
+            value={answer}
             onClick={callback}
           >
             <span

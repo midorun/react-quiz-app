@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import QuestionCard from "./components/QuestionCard";
 import { Difficulty, fetchQuizQuestions, Question } from "./services/API";
 
@@ -9,15 +9,14 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<Array<Question>>([])
   const [number, setNumber] = useState(0)
-  const [userAnswers, setUserAnswers] = useState([])
+  const [userAnswers, setUserAnswers] = useState<Array<string>>([])
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
-
-  console.log(questions);
+  console.log(userAnswers);
+  console.log(number);
 
   const startTrivia = async () => {
-    // Задать начальное состояние quiz
-    setLoading(false);
+    setLoading(true);
     setQuestions(await fetchQuizQuestions(TOTAL_QUESTIONS, Difficulty.easy)
       .then(result => result)
     )
@@ -25,27 +24,42 @@ function App() {
     setUserAnswers([])
     setScore(0)
     setGameOver(false)
+    setLoading(false)
   }
 
-  const checkAnswer = (e: any) => {
+  const checkAnswer = (answer: string) => {
+    if (!gameOver) {
+      setUserAnswers(prev => [...prev, answer])
+    }
+
 
   }
-
   const nextQuestion = () => {
-
+    if (number < TOTAL_QUESTIONS) {
+      setNumber(number + 1)
+    }
   }
 
   return (
     <div className="App">
       <h1>React Quiz</h1>
-      <button
-        className="start"
-        onClick={startTrivia}
-      >
-        Start
-            </button>
-      <p className="score">Score:</p>
-      <p>Loading questions</p>
+      {(gameOver || userAnswers.length === TOTAL_QUESTIONS) ? (
+        <button
+          className="start"
+          onClick={startTrivia}
+        >
+          Start
+        </button>
+      ) : null}
+
+      {gameOver ? (
+        <p className="score">Score:{score}</p>
+      ) : null}
+
+      {loading ? (
+        <p>Loading questions</p>
+      ) : null}
+
       {!gameOver && questions.length === TOTAL_QUESTIONS && (
         <QuestionCard
           questionNumber={number + 1}
@@ -56,12 +70,15 @@ function App() {
           callback={checkAnswer}
         />
       )}
-      <button
-        className="next"
-        onClick={nextQuestion}
-      >
-        nextQuestion
-            </button>
+
+      {!gameOver && userAnswers.length === number + 1 && userAnswers.length !== TOTAL_QUESTIONS ? (
+        <button
+          className="next"
+          onClick={nextQuestion}
+        >
+          Next Question
+        </button>
+      ) : null}
 
     </div>
   );
