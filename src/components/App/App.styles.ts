@@ -27,12 +27,15 @@ export const GlobalStyle = createGlobalStyle`
       padding: 0 10px;
       border-radius: 15px;
       border: none;
+      outline: none;
+      box-shadow: none;
       opacity: .9;
       cursor: pointer;
       font-size: 1.2rem;
+      background-color: #fff;
 
       :hover{
-        opacity: .7;
+        opacity: 1;
       }
     }
 
@@ -48,11 +51,9 @@ export const Wrapper = styled.div`
 
 export const ButtonStart = styled.button`
   width: 150px;
-  background-color: #fff;
 `;
 
 export const ButtonNext = styled.button`
   width: 100px;
-  background-color: #fff;
 `;
 

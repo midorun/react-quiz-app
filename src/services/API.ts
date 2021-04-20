@@ -6,16 +6,15 @@ export enum Difficulty {
     hard = 'hard',
 }
 
-export type RawQuestion = {
+export type Question = {
     category: string
     correct_answer: string
     difficulty: string
     incorrect_answers: Array<string>
     question: string
     type: string
+    answers: Array<string>
 }
-
-export type Question = RawQuestion & { answers: Array<string> }
 
 export const fetchQuizQuestions = async (amount: number, difficulty: Difficulty) => {
     const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`

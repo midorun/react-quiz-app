@@ -3,16 +3,26 @@ import QuestionCard from "../QuestionCard";
 import { Difficulty, fetchQuizQuestions, Question } from "../../services/API";
 import { ButtonNext, ButtonStart, GlobalStyle, Wrapper } from "./App.styles";
 
+
+
 const TOTAL_QUESTIONS = 10;
+
+export type Answer = {
+  userAnswer: string | undefined
+  correctAnswer: string
+  isCorrect: boolean
+}
 
 function App() {
 
   const [loading, setLoading] = useState(false)
   const [questions, setQuestions] = useState<Array<Question>>([])
   const [number, setNumber] = useState(0)
-  const [userAnswers, setUserAnswers] = useState<Array<string>>([])
+  const [userAnswers, setUserAnswers] = useState<Array<Answer>>([])
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+
+  console.log(userAnswers);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -30,12 +40,13 @@ function App() {
     if (!gameOver) {
       const userAnswer = e.currentTarget.value
       const correctAnswer = questions[number].correct_answer
+      const isCorrect = userAnswer === correctAnswer;
 
-      if (userAnswer === correctAnswer) {
+      if (isCorrect) {
         setScore(prev => prev + 1)
       }
 
-      setUserAnswers(prev => [...prev, userAnswer])
+      setUserAnswers(prev => [...prev, { userAnswer, correctAnswer, isCorrect }])
     }
   }
 
@@ -60,7 +71,7 @@ function App() {
         ) : null}
 
         {(!gameOver && userAnswers.length === TOTAL_QUESTIONS) ? (
-          <p className="score">Score:{score}</p>
+          <p className="score">Score: {score}</p>
         ) : null}
 
         {loading ? (
